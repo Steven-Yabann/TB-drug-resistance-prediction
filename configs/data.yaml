@@ -1,0 +1,54 @@
+# CRyPTIC data-loading configuration. All paths are relative to the repository root.
+
+source:
+  name: cryptic
+  release: release_june2022
+  base_url: ftp://ftp.ebi.ac.uk/pub/databases/cryptic/release_june2022/
+  reference_genome: H37Rv (NC_000962.3)
+  # Paths relative to base_url. Files are saved flat under paths.raw_dir.
+  files:
+    phenotypes: reproducibility/data_tables/cryptic-analysis-group/UKMYC_PHENOTYPES.csv.gz
+    mutations: reproducibility/data_tables/cryptic-analysis-group/MUTATIONS.csv.gz
+    genomes: reproducibility/data_tables/cryptic-analysis-group/GENOMES.csv.gz
+    samples: reproducibility/data_tables/cryptic-analysis-group/SAMPLES.csv.gz
+    reuse_table: reuse/CRyPTIC_reuse_table_20240917.csv
+    tables_readme: reproducibility/data_tables/cryptic-analysis-group/README.md
+    tables_changelog: reproducibility/data_tables/cryptic-analysis-group/CHANGELOG.md
+    drug_codes: reproducibility/data_tables/cryptic-analysis-group/DRUG_CODES.csv
+    data_schema: reproducibility/data_tables/cryptic-analysis-group/DATA_SCHEMA.pdf
+    reuse_readme: reuse/README
+    reuse_changelog: reuse/CHANGELOG
+
+paths:
+  raw_dir: data/raw/cryptic
+  interim_dir: data/interim/cryptic
+  processed_dir: data/processed
+
+# Target gene panel. `include` is one of:
+#   all      - coding and promoter mutations annotated under the gene
+#   promoter - only mutations with IN_PROMOTER == True
+# fabG1 is included for the fabG1-inhA operon promoter (e.g. fabG1@c-15t), which
+# the source annotates under fabG1. Set fabG1 to `all` to also keep coding
+# variants such as fabG1@L203L (g609a).
+panel:
+  rpoB: {include: all}
+  katG: {include: all}
+  inhA: {include: all}
+  fabG1: {include: promoter}
+  gyrA: {include: all}
+
+# Every drug uses the full panel as features.
+drugs:
+  rifampicin: {code: RIF}
+  isoniazid: {code: INH}
+  levofloxacin: {code: LEV}
+  moxifloxacin: {code: MXF}
+
+labels:
+  # If set, only calls from this READINGDAY are used; null keeps all reading days.
+  # In release_june2022 every isolate has exactly one reading per drug (mostly
+  # day 14, some day 10 or 21), so filtering would only drop isolates.
+  reading_day: null
+
+features:
+  chunksize: 2000000
