@@ -11,7 +11,11 @@ The initial scope focuses on a small, biologically interpretable gene panel:
 
 The intended outcome is a reproducible pipeline that links genomic variants to laboratory-measured resistance labels, trains one binary classifier per drug, evaluates predictive performance, and identifies the SNPs that contribute most strongly to each prediction.
 
-> **Project status:** initial repository scaffold. Data ingestion, preprocessing, modelling, and evaluation code still need to be implemented.
+## Project status
+
+- **Done:** CRyPTIC data loader (`release_june2022`): download with checksums, binary labels for rifampicin, isoniazid, levofloxacin and moxifloxacin, and isolate-by-mutation matrices for the rpoB / katG / inhA / fabG1-inhA promoter / gyrA panel. See [`docs/data_sources/cryptic.md`](docs/data_sources/cryptic.md) and [`docs/data_dictionary.md`](docs/data_dictionary.md).
+- **Not possible from this release:** pyrazinamide. UKMYC plates do not test PZA, so the release has no PZA phenotypes and the `pncA` extension needs another data source.
+- **Next:** train/test splitting (lineage-aware), training-set-only feature filtering, baseline models and evaluation.
 
 ## Research question
 
@@ -95,21 +99,27 @@ No dataset is bundled with this repository.
 
 ## Getting started
 
-The exact dependency list will be added when the first pipeline component is implemented. A typical local setup will be:
+Requires Python 3.10 or newer.
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
+python -m pytest
 ```
 
-Once project dependencies are defined, install the package in editable mode:
+Build the CRyPTIC matrices (downloads about 1.5 GB into `data/raw/cryptic/` on the first run; interrupted downloads resume):
 
 ```bash
-python -m pip install -e ".[dev]"
+python scripts/build_matrices.py                    # download + build
+python scripts/build_matrices.py --skip-download    # rebuild from existing raw files
+python scripts/build_matrices.py --rebuild-interim  # re-filter raw MUTATIONS after changing the panel
 ```
 
-Place downloaded source files under `data/raw/` and record their origin, version, download date, licence, checksums, and phenotype definitions in `docs/`. Do not commit controlled-access data or sensitive sample metadata.
+Settings (source files, gene panel, drugs, paths) are in `configs/data.yaml`. Outputs go to `data/processed/<drug>/`. Every column is described in `docs/data_dictionary.md`.
+
+Place any other downloaded source files under `data/raw/` and record their origin, version, download date, licence, checksums, and phenotype definitions in `docs/`. Do not commit controlled-access data or sensitive sample metadata.
 
 ## Modelling plan
 
