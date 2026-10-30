@@ -1,0 +1,11 @@
+feature_id,resistant_count,resistant_freq_pct,susceptible_count,susceptible_freq_pct,delta_pct,odds_ratio,gene,mutation,variant_type,in_promoter
+gyrA@D94G,703,40.22,157,1.48,38.73,44.51,gyrA,D94G,snp,False
+gyrA@A90V,322,18.42,218,2.06,16.36,10.72,gyrA,A90V,snp,False
+gyrA@D94N,151,8.64,28,0.26,8.37,35.1,gyrA,D94N,snp,False
+gyrA@D94A,89,5.09,60,0.57,4.52,9.37,gyrA,D94A,snp,False
+gyrA@S91P,69,3.95,35,0.33,3.62,12.29,gyrA,S91P,snp,False
+gyrA@D94Y,65,3.72,12,0.11,3.61,32.88,gyrA,D94Y,snp,False
+gyrA@G668D,1667,95.37,9848,93.13,2.24,1.51,gyrA,G668D,snp,False
+gyrA@D94H,35,2.0,10,0.09,1.91,20.85,gyrA,D94H,snp,False
+gyrA@S95T,1651,94.45,9834,92.99,1.46,1.28,gyrA,S95T,snp,False
+gyrA@A463S,39,2.23,99,0.94,1.29,2.43,gyrA,A463S,snp,False

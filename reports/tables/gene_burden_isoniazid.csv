@@ -1,0 +1,6 @@
+gene,n_features,res_any_mut_n,res_any_mut_pct,sus_any_mut_n,sus_any_mut_pct,delta_pct
+fabG1,25,1164,21.79,49,0.79,20.99
+gyrA,1895,5342,99.98,6167,99.87,0.11
+inhA,465,275,5.15,147,2.38,2.77
+katG,1702,5167,96.71,2872,46.51,50.2
+rpoB,2439,4955,92.74,3943,63.85,28.88

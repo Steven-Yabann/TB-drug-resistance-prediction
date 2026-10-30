@@ -1,0 +1,11 @@
+feature_id,resistant_count,resistant_freq_pct,susceptible_count,susceptible_freq_pct,delta_pct,odds_ratio,gene,mutation,variant_type,in_promoter
+rpoB@S450L,2989,62.14,114,1.54,60.61,104.77,rpoB,S450L,snp,False
+rpoB@A1075A,2845,59.15,3280,44.19,14.96,1.83,rpoB,A1075A,snp,False
+rpoB@D435V,514,10.69,28,0.38,10.31,31.07,rpoB,D435V,snp,False
+rpoB@H445D,210,4.37,7,0.09,4.27,45.25,rpoB,H445D,snp,False
+rpoB@H445Y,156,3.24,4,0.05,3.19,55.44,rpoB,H445Y,snp,False
+rpoB@c-61t,478,9.94,543,7.32,2.62,1.4,rpoB,c-61t,snp,True
+rpoB@G876G,491,10.21,569,7.67,2.54,1.37,rpoB,G876G,snp,False
+rpoB@D435Y,117,2.43,25,0.34,2.1,7.26,rpoB,D435Y,snp,False
+rpoB@S450W,56,1.16,3,0.04,1.12,25.19,rpoB,S450W,snp,False
+rpoB@H445L,63,1.31,15,0.2,1.11,6.39,rpoB,H445L,snp,False
