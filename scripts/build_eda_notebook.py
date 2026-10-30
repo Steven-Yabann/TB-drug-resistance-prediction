@@ -391,17 +391,17 @@ cells = [
         "cell_type": "markdown",
         "metadata": {},
         "source": [
-            "## 7. Our Modeling Plan & Engineering Next Steps\n",
+            "## 7. Key Findings and Modeling Decisions\n",
             "\n",
-            "Based on this EDA, here is the concrete strategy for our next modeling script:\n",
+            "The label distribution changes significantly across drugs. Rifampicin and Isoniazid are relatively balanced, hovering around 39% and 46% resistance. Levofloxacin and Moxifloxacin drop sharply to 18% and 14%. Because of this skew, raw accuracy is useless for fluoroquinolones since a dummy baseline predicting only zeros gets 86% accuracy without detecting a single sick patient. We will evaluate those models using PR-AUC, ROC-AUC, and sensitivity.\n",
             "\n",
-            "| Finding from our EDA | Challenge for ML | How We Will Address It in Code |\n",
-            "| :--- | :--- | :--- |\n",
-            "| **High dimensionality & rare variants** | 6,526 features, mostly zeros; risk of overfitting. | Feature filter (count $\\ge 3$) wrapped inside a scikit-learn Pipeline / fitted strictly on training folds. |\n",
-            "| **Dominant single mutations** | `rpoB@S450L`, `katG@S315T` have massive odds ratios (>100). | Baseline with **L1/L2 penalized Logistic Regression** (sparse, interpretable weights) and **Random Forest** (captures non-linear combinations). |\n",
-            "| **Lineage confounding** | Resistance prevalence differs across lineages (50.8% in L2 vs 21.7% in L1); lineage markers exist. | Evaluate with **Lineage-stratified K-Fold CV** to evaluate true out-of-lineage generalization. |\n",
-            "| **MDR-TB co-resistance** | 4,191 isolates resistant to both RIF and INH. | Compare models trained on **target-gene-only features** (e.g. `rpoB` for RIF) vs **all-panel features** to check for shortcut learning. |\n",
-            "| **Class imbalance in Fluoroquinolones** | Only ~14-18% resistant in LEV/MXF. | Evaluate using **PR-AUC, ROC-AUC, Sensitivity, and Specificity**, rather than raw accuracy. |"
+            "A small cluster of hotspot mutations carries most of the predictive signal. In Rifampicin, rpoB@S450L alone appears in 62.1% of resistant isolates and only 1.5% of susceptible ones, giving an odds ratio over 100. In Isoniazid, katG@S315T shows up in 86.4% of resistant isolates and just 1.2% of susceptible ones, with an odds ratio passing 500. A regularized Logistic Regression baseline will likely pick up on these immediately.\n",
+            "\n",
+            "Cross-resistance introduces a shortcut learning problem. Exactly 4,191 isolates in our data are resistant to both Rifampicin and Isoniazid. A classifier given the entire gene panel could easily predict Rifampicin resistance by latching onto katG mutations instead of learning rpoB biology. To catch this, we will run side-by-side experiments comparing target-gene features against the full panel.\n",
+            "\n",
+            "Phylogenetic lineages create another major trap. Lineage 2 has a 50.8% resistance rate, whereas Lineage 1 sits at 21.7%. Variants like katG@R463L and rpoB@A1075A appear in 44% of both resistant and susceptible isolates because they are lineage markers rather than resistance drivers. If we use a standard random split, isolates from the same transmission cluster will land in both training and test sets and artificially inflate scores. We have to use lineage-stratified cross-validation.\n",
+            "\n",
+            "Sparsity is everywhere in the feature space. Around 5,000 of the 6,526 columns are completely zero within each drug cohort. These are ultra-rare variants observed once or twice across thousands of patient samples. We will filter out mutations with counts under 3 on each training fold to drop our matrix down to a few hundred columns and keep our models from overfitting."
         ]
     }
 ]
