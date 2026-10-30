@@ -1,0 +1,5 @@
+drug,total_isolates,resistant,susceptible,prevalence_pct,high_quality_n,high_quality_pct,day_14_n,n_features
+isoniazid,11518,5343,6175,46.39,9116,79.1,11016,6526
+levofloxacin,12289,2170,10119,17.66,7819,63.6,11740,6526
+moxifloxacin,12323,1748,10575,14.18,6828,55.4,11773,6526
+rifampicin,12233,4810,7423,39.32,9040,73.9,11700,6526

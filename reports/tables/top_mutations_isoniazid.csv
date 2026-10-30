@@ -1,0 +1,11 @@
+feature_id,resistant_count,resistant_freq_pct,susceptible_count,susceptible_freq_pct,delta_pct,odds_ratio,gene,mutation,variant_type,in_promoter
+katG@S315T,4618,86.43,77,1.25,85.18,500.94,katG,S315T,snp,False
+katG@R463L,3151,58.97,2673,43.29,15.69,1.88,katG,R463L,snp,False
+katG@S315N,67,1.25,3,0.05,1.21,22.56,katG,S315N,snp,False
+katG@A551A,49,0.92,5,0.08,0.84,10.49,katG,A551A,snp,False
+katG@A478A,35,0.66,1,0.02,0.64,27.53,katG,A478A,snp,False
+katG@P365P,29,0.54,0,0.0,0.54,68.56,katG,P365P,snp,False
+katG@I317V,14,0.26,0,0.0,0.26,33.6,katG,I317V,snp,False
+katG@a-6g,13,0.24,1,0.02,0.23,10.43,katG,a-6g,snp,True
+katG@I335V,12,0.22,1,0.02,0.21,9.65,katG,I335V,snp,False
+katG@T275A,11,0.21,0,0.0,0.21,26.64,katG,T275A,snp,False

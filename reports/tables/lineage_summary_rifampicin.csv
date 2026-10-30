@@ -1,0 +1,10 @@
+lineage,total_isolates,resistant,susceptible,prevalence_pct,share_of_cohort_pct
+Lineage 4,5979,1921,4058,32.13,48.88
+Lineage 2,4276,2173,2103,50.82,34.95
+Lineage 3,1059,489,570,46.18,8.66
+Lineage 1,686,149,537,21.72,5.61
+Mixed,200,76,124,38.0,1.63
+Lineage Bovis,14,1,13,7.14,0.11
+Unknown,12,1,11,8.33,0.1
+Lineage 6,6,0,6,0.0,0.05
+Lineage Caprae,1,0,1,0.0,0.01
