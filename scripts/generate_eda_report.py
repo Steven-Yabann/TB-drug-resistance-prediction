@@ -50,6 +50,8 @@ def main():
     log.info("Generating cohort summary...")
     cohort_summary = summarize_drug_cohorts(processed_dir, drugs)
     cohort_summary.to_csv(tables_dir / "cohort_summary.csv")
+    # summarize_drug_cohorts returns drugs alphabetically; bars are drawn by position
+    cohort_summary = cohort_summary.loc[drugs]
 
     fig, ax1 = plt.subplots(figsize=(8, 4.5), dpi=300)
     colors = ["#2b5c8f", "#d95f02", "#7570b3", "#1b9e77"]
@@ -62,14 +64,17 @@ def main():
     ax1.set_title("CRyPTIC Dataset: Cohort Size and Label Balance per Drug")
     ax1.set_xticks(x)
     ax1.set_xticklabels([d.capitalize() for d in drugs])
-    ax1.legend(loc="upper right")
+    ax1.legend(loc="upper left")
 
-    # Annotate prevalence %
+    # Annotate prevalence % just above the taller bar of each pair
+    tallest = cohort_summary[["resistant", "susceptible"]].max(axis=1)
     for i, d in enumerate(drugs):
         prev = cohort_summary.loc[d, "prevalence_pct"]
         total = cohort_summary.loc[d, "total_isolates"]
-        ax1.text(i, total * 0.95, f"{prev:.1f}% Res\n(N={total:,})", ha="center", fontsize=9,
+        ax1.text(i, tallest[d] * 1.03, f"{prev:.1f}% Res\n(N={total:,})", ha="center",
+                 va="bottom", fontsize=9,
                  bbox=dict(boxstyle="round,pad=0.2", facecolor="white", alpha=0.8, edgecolor="#ccc"))
+    ax1.set_ylim(0, tallest.max() * 1.25)
 
     plt.savefig(figures_dir / "cohort_prevalence.png")
     plt.close()
@@ -80,7 +85,7 @@ def main():
     shared.to_csv(tables_dir / "multidrug_shared_isolates.csv")
     both_res.to_csv(tables_dir / "multidrug_co_resistance.csv")
 
-    # Concordance rate (% of shared isolates resistant to both)
+    # Joint resistance rate (% of isolates tested for both drugs that are resistant to both)
     concordance = (both_res / shared * 100.0).astype(float)
 
     fig, ax = plt.subplots(figsize=(7, 5.5), dpi=300)
@@ -94,7 +99,8 @@ def main():
         xticklabels=[d.capitalize() for d in drugs],
         yticklabels=[d.capitalize() for d in drugs],
     )
-    ax.set_title("Pairwise Co-Resistance Concordance (%)")
+    ax.set_title("Pairwise Co-Resistance: % of Isolates Resistant to Both Drugs\n"
+                 "(diagonal = resistance prevalence for that drug)", fontsize=11)
     plt.savefig(figures_dir / "co_resistance_heatmap.png")
     plt.close()
 
